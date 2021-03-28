@@ -1,6 +1,9 @@
 /**
  * Array based storage for Resumes
  */
+
+import java.util.Arrays;
+
 /**
  * Array based storage for Resumes
  *Реализуйте класс ArrayStorage, организовав хранение резюме на основе массива с методами save, get, delete, size, clear, getAll
@@ -25,50 +28,31 @@ public class ArrayStorage {
     }
 
     Resume get(String uuid) {
-        Resume temp = null;
+
         for (int i = 0; i <countStorageElement ; i++) {
 
             if (storage[i].uuid.equals(uuid)){
-                temp = storage[i];
+                return storage[i];
             }
-
-
         }
-        return temp;
+        return null;
     }
 
     void delete(String uuid) {
         for (int i = 0; i < countStorageElement ; i++) {
             if (storage[i].uuid.equals(uuid)){
-                storage[i] = null;
+                storage[i] = storage[countStorageElement-1];
+                countStorageElement--;
+                break;
             }
         }
-        overwriteElements();
-    }
-
-    private void overwriteElements() {
-        Resume[] temp = storage;
-        int count = 0;
-        for (int i = 0; i <countStorageElement ; i++) {
-            if (temp[i] != null ){
-                storage[count] = temp[i];
-                count++;
-            }
-        }
-        countStorageElement = count;
     }
 
     /**
      * @return array, contains only Resumes in storage (without null)
      */
     Resume[] getAll() {
-        Resume[] resumes = new Resume[countStorageElement];
-        for (int i = 0; i <countStorageElement ; i++) {
-
-            resumes[i] = storage[i];
-        }
-
-        return resumes;
+        return Arrays.copyOf(storage, countStorageElement );
     }
 
     int size() {
