@@ -26,6 +26,13 @@ public class ArrayStorage {
         storage[countStorageElement] = r;
         countStorageElement++;
     }
+    void update(Resume r){
+        for (int i = 0; i < countStorageElement ; i++) {
+            if (storage[i].uuid == r.uuid){
+                storage[i] = r;
+            }
+        }
+    }
 
     Resume get(String uuid) {
 
