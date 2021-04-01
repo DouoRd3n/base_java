@@ -1,0 +1,195 @@
+Index: src/ru/javawebinar/basejava/storage/SortedArrayStorage.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/ru/javawebinar/basejava/storage/SortedArrayStorage.java	(date 1560866863000)
++++ src/ru/javawebinar/basejava/storage/SortedArrayStorage.java	(date 1560866863000)
+@@ -0,0 +1,39 @@
++package ru.javawebinar.basejava.storage;
++
++import ru.javawebinar.basejava.model.Resume;
++
++import java.util.Arrays;
++
++public class SortedArrayStorage extends AbstractArrayStorage{
++    @Override
++    public void clear() {
++
++    }
++
++    @Override
++    public void update(Resume r) {
++
++    }
++
++    @Override
++    public void save(Resume r) {
++
++    }
++
++    @Override
++    public void delete(String uuid) {
++
++    }
++
++    @Override
++    public Resume[] getAll() {
++        return new Resume[0];
++    }
++
++    @Override
++    protected int getIndex(String uuid) {
++        Resume searchKey = new Resume();
++        searchKey.setUuid(uuid);
++        return Arrays.binarySearch(storage, 0, size, searchKey);
++    }
++}
+Index: src/ru/javawebinar/basejava/storage/AbstractArrayStorage.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/ru/javawebinar/basejava/storage/AbstractArrayStorage.java	(date 1560866863000)
++++ src/ru/javawebinar/basejava/storage/AbstractArrayStorage.java	(date 1560866863000)
+@@ -0,0 +1,28 @@
++package ru.javawebinar.basejava.storage;
++
++import ru.javawebinar.basejava.model.Resume;
++
++/**
++ * Array based storage for Resumes
++ */
++public abstract class AbstractArrayStorage implements Storage {
++    protected static final int STORAGE_LIMIT = 10000;
++
++    protected Resume[] storage = new Resume[STORAGE_LIMIT];
++    protected int size = 0;
++
++    public int size() {
++        return size;
++    }
++
++    public Resume get(String uuid) {
++        int index = getIndex(uuid);
++        if (index == -1) {
++            System.out.println("Resume " + uuid + " not exist");
++            return null;
++        }
++        return storage[index];
++    }
++
++    protected abstract int getIndex(String uuid);
++}
+Index: src/ru/javawebinar/basejava/model/Resume.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/ru/javawebinar/basejava/model/Resume.java	(revision 8298e3ca3c1db9750812924bd8dd198551bcee6f)
++++ src/ru/javawebinar/basejava/model/Resume.java	(date 1560866863000)
+@@ -3,7 +3,7 @@
+ /**
+  * ru.javawebinar.basejava.model.Resume class
+  */
+-public class Resume {
++public class Resume implements Comparable<Resume>{
+ 
+     // Unique identifier
+     private String uuid;
+@@ -35,4 +35,9 @@
+     public String toString() {
+         return uuid;
+     }
++
++    @Override
++    public int compareTo(Resume o) {
++        return uuid.compareTo(o.uuid);
++    }
+ }
+Index: src/ru/javawebinar/basejava/MainArray.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/ru/javawebinar/basejava/MainArray.java	(revision 8298e3ca3c1db9750812924bd8dd198551bcee6f)
++++ src/ru/javawebinar/basejava/MainArray.java	(date 1560866863000)
+@@ -2,6 +2,7 @@
+ 
+ import ru.javawebinar.basejava.model.Resume;
+ import ru.javawebinar.basejava.storage.ArrayStorage;
++import ru.javawebinar.basejava.storage.Storage;
+ 
+ import java.io.BufferedReader;
+ import java.io.IOException;
+@@ -12,7 +13,7 @@
+  * (just run, no need to understand)
+  */
+ public class MainArray {
+-    private final static ArrayStorage ARRAY_STORAGE = new ArrayStorage();
++    private final static Storage ARRAY_STORAGE = new ArrayStorage();
+ 
+     public static void main(String[] args) throws IOException {
+         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+Index: src/ru/javawebinar/basejava/storage/ArrayStorage.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/ru/javawebinar/basejava/storage/ArrayStorage.java	(revision 8298e3ca3c1db9750812924bd8dd198551bcee6f)
++++ src/ru/javawebinar/basejava/storage/ArrayStorage.java	(date 1560866863000)
+@@ -7,17 +7,11 @@
+ /**
+  * Array based storage for Resumes
+  */
+-public class ArrayStorage implements Storage{
+-
+-    private static final int STORAGE_LIMIT = 10000;
+-
+-    private Resume[] storage = new Resume[STORAGE_LIMIT];
+-    private int size = 0;
++public class ArrayStorage extends AbstractArrayStorage {
+ 
+     public void clear() {
+         Arrays.fill(storage, 0, size, null);
+         size = 0;
+-
+     }
+ 
+     public void update(Resume r) {
+@@ -40,15 +34,6 @@
+         }
+     }
+ 
+-    public Resume get(String uuid) {
+-        int index = getIndex(uuid);
+-        if (index == -1) {
+-            System.out.println("Resume " + uuid + " not exist");
+-            return null;
+-        }
+-        return storage[index];
+-    }
+-
+     public void delete(String uuid) {
+         int index = getIndex(uuid);
+         if (index == -1) {
+@@ -64,11 +49,7 @@
+         return Arrays.copyOfRange(storage, 0, size);
+     }
+ 
+-    public int size() {
+-        return size;
+-    }
+-
+-    private int getIndex(String uuid) {
++    protected int getIndex(String uuid) {
+         for (int i = 0; i < size; i++) {
+             if (uuid.equals(storage[i].getUuid())) {
+                 return i;
+@@ -76,5 +57,4 @@
+         }
+         return -1;
+     }
+-
+ }
+\ No newline at end of file
