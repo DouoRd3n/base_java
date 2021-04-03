@@ -16,9 +16,9 @@ public abstract class AbstractArrayStorageTest {
     @Before
     public void setUp() throws Exception {
         storage.clear();
-        storage.save(new Resume(UUID_1));
-        storage.save(new Resume(UUID_2));
-        storage.save(new Resume(UUID_3));
+        storage.save(new Resume());
+        storage.save(new Resume());
+        storage.save(new Resume());
     }
 
     @Test
