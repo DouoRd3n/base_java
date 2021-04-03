@@ -3,6 +3,7 @@ package ru.javawebinar.basejava.storage;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import ru.javawebinar.basejava.exception.ExistStorageException;
 import ru.javawebinar.basejava.exception.NotExistStorageException;
 import ru.javawebinar.basejava.model.Resume;
 
@@ -36,7 +37,7 @@ public abstract class AbstractArrayStorageTest {
     }
 
     @Test
-    public void update() throws Exception {
+    public void update() {
 
     }
 
