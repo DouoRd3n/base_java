@@ -2,29 +2,27 @@ package ru.javawebinar.basejava.storage;
 
 import ru.javawebinar.basejava.model.Resume;
 
-/**
- * Array based storage for Resumes
- */
-public class ArrayStorage extends AbstractArrayStorage {
+import java.util.ArrayList;
+import java.util.List;
+
+public class ListStorage extends AbstractStorage {
+
+   private final List<Resume> storage = new ArrayList<>();
 
     @Override
-    protected void fillDeletedElement(int index) {
-        storage[index] = storage[size - 1];
+    public void clear() {
+        storage.clear();
     }
 
     @Override
-    protected void insertElement(Resume r, int index) {
-        storage[size] = r;
+    public Resume[] getAll() {
+
+        return new Resume[0];
     }
 
     @Override
-    protected int getIndex(String uuid) {
-        for (int i = 0; i < size; i++) {
-            if (uuid.equals(storage[i].getUuid())) {
-                return i;
-            }
-        }
-        return -1;
+    public int size() {
+        return 0;
     }
 
     @Override
@@ -54,6 +52,6 @@ public class ArrayStorage extends AbstractArrayStorage {
 
     @Override
     protected int getSearchKey(String uuid) {
-        return getIndex(uuid);
+        return 0;
     }
 }
