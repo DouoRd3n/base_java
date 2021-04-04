@@ -1,8 +1,14 @@
 package ru.javawebinar.basejava.storage;
 
-public class SortedArrayStorageTest extends AbstractArrayStorageTest {
+import org.junit.BeforeClass;
 
-    public SortedArrayStorageTest() {
-        super(new SortedArrayStorage());
+public class SortedArrayStorageTest extends AbstractStorageTest {
+
+    //    public SortedArrayStorageTest() {
+//        super(new SortedArrayStorage());
+//    }
+    @BeforeClass
+    public static void initialize() {
+        AbstractStorageTest.storage = new SortedArrayStorage();
     }
 }

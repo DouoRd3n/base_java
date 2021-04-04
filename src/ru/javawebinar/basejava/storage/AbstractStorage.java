@@ -1,54 +1,60 @@
 package ru.javawebinar.basejava.storage;
 
 import ru.javawebinar.basejava.exception.ExistStorageException;
+import ru.javawebinar.basejava.exception.NotExistStorageException;
 import ru.javawebinar.basejava.model.Resume;
 
 public abstract class AbstractStorage implements Storage {
 
     public void update(Resume r) {
-        int searchKey = getSearchKey(r.getUuid());
-        mustExist(r.getUuid(), searchKey);
+        Object searchKey =  getNotExistedKey(r.getUuid());
         doUpdate(searchKey, r);
-
     }
 
 
     public void save(Resume r) {
-        int searchKey = getSearchKey(r.getUuid());
-        mustExist(r.getUuid(), searchKey);
-        doSave(r);
-
+        Object searchKey = getExistedKey(r.getUuid());
+        doSave(searchKey, r);
     }
 
-    protected abstract void doSave(Resume r);
+
 
     public void delete(String uuid) {
-        int searchKey = getSearchKey(uuid);
-        mustExist(uuid, searchKey);
+        Object searchKey = getNotExistedKey(uuid);
         doDelete(searchKey);
     }
 
 
 
     public Resume get(String uuid) {
-        int searchKey = getSearchKey(uuid);
-        mustExist(uuid, searchKey);
-
+        Object searchKey = getNotExistedKey(uuid);
         return doGet(searchKey);
     }
-    protected abstract void doDelete(int searchKey);
 
-    protected abstract Resume doGet(int searchKey);
+    protected abstract void doSave(Object searchKey, Resume r);
 
-    protected abstract void doUpdate(int searchKey, Resume r);
+    protected abstract void doDelete(Object searchKey);
 
-    protected abstract boolean isExist(int r);
+    protected abstract Resume doGet(Object searchKey);
 
-    protected abstract int getSearchKey(String uuid);
+    protected abstract void doUpdate(Object searchKey, Resume r);
 
-    protected void mustExist(String uuid, int searchKey) {
-        if (!isExist(searchKey)) {
+    protected abstract boolean isExist(Object searchKey);
+
+    protected abstract Integer getSearchKey(String uuid);
+
+    protected Object getExistedKey(String uuid){
+        Object searchKey = getSearchKey(uuid);
+        if (isExist(searchKey)) {
             throw new ExistStorageException(uuid);
         }
+        return searchKey;
+    }
+    protected Object getNotExistedKey(String uuid) {
+        Object searchKey = getSearchKey(uuid);
+        if (!isExist(searchKey)) {
+            throw new NotExistStorageException(uuid);
+        }
+        return searchKey;
     }
 }
