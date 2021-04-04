@@ -9,8 +9,8 @@ import ru.javawebinar.basejava.exception.StorageException;
 import ru.javawebinar.basejava.model.Resume;
 
 public abstract class AbstractStorageTest {
-    protected static Storage storage;
 
+    protected static Storage storage;
 
     protected static final String UUID_1 = "uuid1";
     public static final Resume RESUME_1 = new Resume(UUID_1);
@@ -21,22 +21,21 @@ public abstract class AbstractStorageTest {
     public static final String UUID_4 = "uuid4";
     public static final Resume RESUME_4 = new Resume(UUID_4);
 
-//    public AbstractStorageTest(Storage storage) {
-//        this.storage = storage;
-//    }
+    public AbstractStorageTest(Storage storage) {
+        this.storage = storage;
+    }
 
     @Before
     public void setUp() throws Exception {
+
+
         storage.clear();
         storage.save(new Resume(UUID_1));
         storage.save(new Resume(UUID_2));
         storage.save(new Resume(UUID_3));
     }
 
-    @Test
-    public void size() throws Exception {
-        Assert.assertEquals(3, storage.size());
-    }
+
 
     @Test
     public void clear() throws Exception {
@@ -57,9 +56,7 @@ public abstract class AbstractStorageTest {
         Resume[] storageAll = storage.getAll();
 
         Assert.assertEquals(3, storageAll.length);
-        Assert.assertEquals(RESUME_1, storageAll[0]);
-        Assert.assertEquals(RESUME_2, storageAll[1]);
-        Assert.assertEquals(RESUME_3, storageAll[2]);
+
 
     }
 
@@ -97,19 +94,7 @@ public abstract class AbstractStorageTest {
     }
 
 
-    @Test(expected = StorageException.class)
-    public void saveOverFlov() {
 
-            try {
-                for (int i = 4; i <= AbstractArrayStorage.STORAGE_LIMIT; i++) {
-                    storage.save(new Resume());
-                }
-            } catch (StorageException e) {
-                Assert.fail();
-            }
-            storage.save(new Resume());
-
-        }
 
 
 

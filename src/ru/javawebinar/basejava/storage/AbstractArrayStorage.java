@@ -1,6 +1,5 @@
 package ru.javawebinar.basejava.storage;
 
-import ru.javawebinar.basejava.exception.ExistStorageException;
 import ru.javawebinar.basejava.exception.NotExistStorageException;
 import ru.javawebinar.basejava.exception.StorageException;
 import ru.javawebinar.basejava.model.Resume;
@@ -53,11 +52,11 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     }
 
     public Resume get(String uuid) {
-        int index = getSearchKey(uuid);
-        if (index < 0) {
+        Object index = getSearchKey(uuid);
+        if ((Integer)index < 0) {
             throw new NotExistStorageException(uuid);
         }
-        return storage[index];
+        return storage[(Integer) index];
     }
 
     @Override
@@ -75,5 +74,5 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
 
     protected abstract void insertElement(Resume r, int index);
 
-    protected abstract Integer getSearchKey(String uuid);
+    protected abstract Object getSearchKey(String uuid);
 }
