@@ -4,6 +4,7 @@ import ru.javawebinar.basejava.model.Resume;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class ListStorage extends AbstractStorage {
     private List<Resume> list = new ArrayList<>();
@@ -49,9 +50,11 @@ public class ListStorage extends AbstractStorage {
     }
 
     @Override
-    public Resume[] getAll() {
-        return list.toArray(new Resume[list.size()]);
+    public List <Resume> getAllSorted() {
+        return (List<Resume>) list.stream().sorted().collect(Collectors.toList());
     }
+
+
 
     @Override
     public int size() {
