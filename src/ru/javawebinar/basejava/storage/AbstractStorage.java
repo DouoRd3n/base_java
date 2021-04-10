@@ -7,7 +7,7 @@ import ru.javawebinar.basejava.model.Resume;
 import java.util.Collections;
 import java.util.List;
 
-public abstract class AbstractStorage implements Storage {
+public abstract class AbstractStorage<SK> implements Storage {
 
     protected abstract Object getSearchKey(String uuid);
 

@@ -29,6 +29,9 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
         storage[(Integer) index] = r;
     }
 
+    /**
+     * @return array, contains only Resumes in storage (without null)
+     */
     @Override
     public List<Resume> doCopyAll() {
         return Arrays.asList(Arrays.copyOfRange(storage, 0, size));
