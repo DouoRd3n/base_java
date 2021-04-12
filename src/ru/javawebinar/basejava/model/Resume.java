@@ -1,7 +1,6 @@
 package ru.javawebinar.basejava.model;
 
-import java.util.Objects;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * ru.javawebinar.basejava.model.Resume class
@@ -13,9 +12,25 @@ public class Resume implements Comparable<Resume> {
 
     private final String fullName;
 
+
+
+    private final Map<ContactType, String> contacts = new EnumMap<>(ContactType.class);
+
+    private final Map<SectionType, Section> sections = new EnumMap<>(SectionType.class);
+
+    public String getContacts(SectionType type) {
+        return contacts.get(type);
+    }
+
+    public Section getSections(SectionType type) {
+        return sections.get(type);
+    }
+
     public Resume(String fullName) {
         this(UUID.randomUUID().toString(), fullName);
     }
+
+
 
     public Resume(String uuid, String fullName) {
         Objects.requireNonNull(uuid, "uuid must not be null");
