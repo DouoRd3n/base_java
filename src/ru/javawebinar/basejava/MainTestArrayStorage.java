@@ -2,12 +2,16 @@ package ru.javawebinar.basejava;
 
 import ru.javawebinar.basejava.model.Resume;
 import ru.javawebinar.basejava.storage.ArrayStorage;
+import ru.javawebinar.basejava.storage.PathStorage;
+import ru.javawebinar.basejava.storage.serialize.ObjectStreamSerializer;
+
+import java.io.File;
 
 /**
  * Test for your ArrayStorage implementation
  */
 public class MainTestArrayStorage {
-    static final ArrayStorage ARRAY_STORAGE = new ArrayStorage();
+    static final PathStorage ARRAY_STORAGE = new PathStorage(new File("C:\\Users\\Serg\\IdeaProjects\\base_java\\storage").getAbsolutePath(), new ObjectStreamSerializer());
 
     public static void main(String[] args) {
         Resume r1 = new Resume("uuid1");
