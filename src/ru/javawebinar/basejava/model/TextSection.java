@@ -1,5 +1,7 @@
 package ru.javawebinar.basejava.model;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public class TextSection extends Section {
@@ -39,6 +41,13 @@ public class TextSection extends Section {
     @Override
     public int hashCode() {
         return content.hashCode();
+    }
+
+    @Override
+   public List<String> toList() {
+       List<String> list = new ArrayList<>();
+       list.add(content);
+        return list;
     }
 }
 

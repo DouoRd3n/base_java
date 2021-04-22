@@ -12,7 +12,11 @@ public class ListSection extends Section {
 
     private static final long serialVersionUID = 1L;
 
+
+
     private List<String> items;
+
+
 
     public ListSection() {
     }
@@ -50,5 +54,8 @@ public class ListSection extends Section {
     public int hashCode() {
         return items.hashCode();
     }
+
+
+
 }
 
