@@ -165,7 +165,18 @@ public class DataStreamSerializer implements StreamSerializer {
     }
 
     private Link readLink(DataInputStream dis) throws IOException {
-        return new Link(dis.readUTF(), dis.readUTF());
+
+        return new Link(dis.readUTF(), readURL(dis));
+    }
+
+    private String readURL(DataInputStream dis) throws IOException {
+        String s = dis.readUTF();
+        if (s.equals("do not URL")){
+            return null;
+        } else {
+            return s;
+        }
+
     }
 
     private List<Organization.Position> readPositions(DataInputStream dis) throws IOException {
@@ -177,7 +188,8 @@ public class DataStreamSerializer implements StreamSerializer {
                         DateAdapter.unmarshal(dis.readUTF()),
                         DateAdapter.unmarshal(dis.readUTF()),
                         dis.readUTF(),
-                        dis.readUTF()
+                        readDescription(dis)
+
                 ));
             } catch (Exception e) {
                 e.printStackTrace();
@@ -185,6 +197,16 @@ public class DataStreamSerializer implements StreamSerializer {
 
         }
         return positions;
+    }
+
+    private String readDescription(DataInputStream dis) throws IOException {
+        String s = dis.readUTF();
+        if(s.equals("do not Description")){
+            return null;
+        } else {
+            return s;
+        }
+
     }
 
     private List<String> readList(DataInputStream dis) throws IOException {
