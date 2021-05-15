@@ -10,7 +10,7 @@ public class HWMain {
         int[] i = {9,8,9,8,9,8};
         int i1 = minValue(i);
         System.out.println(i1);
-        List<Integer> list = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9);
+        List<Integer> list = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
         List<Integer> list1 = oddOrEven(list);
         list1.forEach(System.out::println);
     }
@@ -30,7 +30,7 @@ public class HWMain {
         List<Integer> collect = integers.stream()
                 .peek((i) -> summ.set(summ.get() + i))
                 .sorted()
-                .filter((i) -> (i % 2 == 0) == (summ.get() % 2 == 0))
+                .filter((i) -> (i % 2 == 0) != (summ.get() % 2 == 0))
                 .collect(Collectors.toList());
         return collect;
     }
