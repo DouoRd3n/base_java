@@ -6,6 +6,7 @@ import ru.javawebinar.basejava.model.Resume;
 import ru.javawebinar.basejava.sql.ConnectionFactory;
 
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
 
 public class SqlStorage implements Storage {
@@ -42,6 +43,13 @@ public class SqlStorage implements Storage {
 
     @Override
     public void update(Resume r) {
+        try (Connection conn = connectionFactory.getConnection();
+             PreparedStatement ps = conn.prepareStatement("UPDATE resume SET (uuid, full_name) VALUES (?,?) ")){
+            ps.setString(1, r.getUuid());
+            ps.setString(2, r.getFullName());
+        } catch (SQLException e) {
+            throw new StorageException(e);
+        }
 
     }
 
@@ -60,11 +68,26 @@ public class SqlStorage implements Storage {
 
     @Override
     public void delete(String uuid) {
-
+        try(Connection conn = connectionFactory.getConnection();
+        PreparedStatement ps = conn.prepareStatement("DELETE FROM resume WHERE uuid = ?")) {
+            ps.setString(1, uuid);
+        } catch (SQLException e) {
+            throw new StorageException(e);
+        }
     }
 
     @Override
     public List<Resume> getAllSorted() {
+        ArrayList<Resume> list = new ArrayList<>();
+        ResultSet rs;
+        try (Connection conn = connectionFactory.getConnection();){
+            PreparedStatement ps = conn.prepareStatement("SELECT id FROM resume ");
+
+                rs = ps.executeQuery();
+                list.add(get(rs.getString("uuid")));
+        } catch (SQLException e) {
+            throw new StorageException(e);
+        }
         return null;
     }
 
