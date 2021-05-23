@@ -72,6 +72,10 @@ public class SqlStorage implements Storage {
 
     @Override
     public int size() {
-        return 0;
+
+      return   sqlHelper.execute("SELECT COUNT(*) as count FROM resume", ps ->{
+           ResultSet rs = ps.;
+          return rs.getFetchSize();
+        }) ;
     }
 }
