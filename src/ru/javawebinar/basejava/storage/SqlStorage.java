@@ -7,6 +7,7 @@ import ru.javawebinar.basejava.sql.ConnectionFactory;
 import ru.javawebinar.basejava.sql.SqlHelper;
 
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
 
 public class SqlStorage implements Storage {
@@ -71,6 +72,13 @@ public class SqlStorage implements Storage {
 
     @Override
     public List<Resume> getAllSorted() {
+        ArrayList<Resume> list = new ArrayList<>();
+        sqlHelper.execute("SELECT * FROM resume r ORDERED BY (uuid, full_name)", ps->{
+           ResultSet rs =  ps.executeQuery();
+           while (rs.next()){
+               list.add(new Resume(rs.getString()))
+           }
+        });
         return null;
     }
 
