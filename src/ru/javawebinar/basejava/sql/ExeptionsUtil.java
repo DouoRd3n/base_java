@@ -1,6 +1,7 @@
 package ru.javawebinar.basejava.sql;
 
 import ru.javawebinar.basejava.exception.ExistStorageException;
+import ru.javawebinar.basejava.exception.StorageException;
 
 import java.sql.SQLException;
 
@@ -10,9 +11,10 @@ public class ExeptionsUtil extends Exception{
     }
     public static void convertExeptions(SQLException e){
         if (e instanceof SQLException){
-            if(e.getSQLState().equals("")){
-                throw new ExistStorageException(e)
+            if(e.getSQLState().equals("23505")){
+                throw new ExistStorageException(null);
             }
         }
+        return new StorageException();
     }
 }
