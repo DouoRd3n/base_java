@@ -52,6 +52,7 @@ public class SqlStorage implements Storage {
             ps.setString(1, r.getUuid());
             ps.setString(2,r.getFullName());
             ps.execute();
+
            return null;
         });
 
@@ -75,7 +76,7 @@ public class SqlStorage implements Storage {
 
       return   sqlHelper.execute("SELECT count(*)FROM resume", ps ->{
            ResultSet rs = ps.executeQuery();
-          return rs.next()? rs.getInt()
+          return rs.next()? rs.getInt(1):1;
         }) ;
     }
 }
