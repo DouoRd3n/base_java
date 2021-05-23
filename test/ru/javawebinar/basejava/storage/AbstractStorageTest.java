@@ -31,16 +31,13 @@ public abstract class AbstractStorageTest {
     private static final Resume R2;
     private static final Resume R3;
     private static final Resume R4;
-    private static final ArrayList<Resume> listResume = new ArrayList<>();
+
 
     static {
         R1 = new Resume(UUID_1, "Name1");
         R2 = new Resume(UUID_2, "Name2");
         R3 = new Resume(UUID_3, "Name3");
         R4 = new Resume(UUID_4, "Name4");
-        listResume.add(R1);
-        listResume.add(R2);
-        listResume.add(R3);
 
 
         /*R1.addContact(ContactType.MAIL, "mail1@ya.ru");
@@ -107,8 +104,9 @@ public abstract class AbstractStorageTest {
     public void getAllSorted() throws Exception {
         List<Resume> list = storage.getAllSorted();
         assertEquals(3, list.size());
-        Collections.sort(listResume);
-        assertEquals(list, listResume);
+        List<Resume> sortedResumes = Arrays.asList(R1, R2, R3);
+        Collections.sort(sortedResumes);
+        assertEquals(list, sortedResumes);
     }
 
     @Test
