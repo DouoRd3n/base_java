@@ -9,12 +9,12 @@ public class ExeptionsUtil extends Exception{
     private ExeptionsUtil(){
 
     }
-    public static void convertExeptions(SQLException e){
+    public static StorageException convertExeptions(SQLException e){
         if (e instanceof SQLException){
             if(e.getSQLState().equals("23505")){
                 throw new ExistStorageException(null);
             }
         }
-        return new StorageException();
+        return new StorageException(e);
     }
 }
