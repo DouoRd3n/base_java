@@ -36,7 +36,7 @@ public class SqlStorage implements Storage {
 
     @Override
     public void update(Resume r) {
-        sqlHelper.execute("UPDATE resume SET (uuid, full_name) VALUES (?,?)", ps -> {
+        sqlHelper.execute("UPDATE resume SET full_name = ? WHERE uuid = ?", ps -> {
             ps.setString(1,r.getUuid());
             ps.setString(2,r.getFullName());
             if (ps.executeUpdate() == 0){
