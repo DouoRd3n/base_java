@@ -8,6 +8,7 @@ import ru.javawebinar.basejava.sql.SqlHelper;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class SqlStorage implements Storage {
@@ -79,6 +80,7 @@ public class SqlStorage implements Storage {
            while (rs.next()){
                list.add(new Resume(rs.getString("uuid"), rs.getString("full_name")));
            }
+           Collections.sort(list);
            return list;
         });
 
