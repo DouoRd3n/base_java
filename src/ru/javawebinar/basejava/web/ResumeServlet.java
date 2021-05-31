@@ -1,6 +1,7 @@
 package ru.javawebinar.basejava.web;
 
 import ru.javawebinar.basejava.Config;
+import ru.javawebinar.basejava.model.ContactType;
 import ru.javawebinar.basejava.model.Resume;
 import ru.javawebinar.basejava.storage.SqlStorage;
 import ru.javawebinar.basejava.storage.Storage;
@@ -23,17 +24,9 @@ public class ResumeServlet extends HttpServlet {
 
     }
 
-    //@Override
-//    public void init(ServletConfig config) throws ServletException {
-//        super.init(config);
-//        storage = Config.get().getStorage();
-//    }
-
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws javax.servlet.ServletException, IOException {
 
     }
-
-
 
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws javax.servlet.ServletException, IOException {
@@ -47,30 +40,31 @@ public class ResumeServlet extends HttpServlet {
             writer.write(
                     "<html>" +
                             "<head>" +
-                                "<title> Resumes </title>" +
+                            "<title> Resumes </title>" +
                             "</head>" +
                             "<body>" +
                             "<center>" +
-                                "<table border =\"1\" width=\"640\" height=\"480\"> " +
-                                "<tr>" +
-                                    "<td> name </td>" +
-                                    "<td> uuid </td>" +
-                                "</tr>");
+                            "<p> Список Резюме </p>"+
+                            "<table border =\"1\"> " +
+                            "<tr>" +
+                            "<td> name </td>" +
+                            "<td> contact </td>"
+            );
 
-//            for (Resume r : storage.getAllSorted()) {
-//                    writer.write(
-//                            "<tr>" +
-//                                    "<td>" + r.getFullName() + "</td>" +
-//                                    "<td>" + r.getUuid() + "</td>" +
-//                                 "</tr>");
-//
-//                }
+            for (Resume r : storage.getAllSorted()) {
                 writer.write(
-                        "</table>" +
-                                "</body>" +
-                                "</center>" +
-                                "</html>"
-                );
+                           "<tr>\n" +
+                         "     <td weight=\"15\"><a href=\"resume?uuid=" + r.getUuid() + "\">" + r.getFullName() + "</a></td>\n" +
+                         "     <td>" + r.getContact(ContactType.MAIL) + "</td>\n" +
+                              "</tr>\n");
+
+            }
+            writer.write(
+                    "</table>" +
+                            "</body>" +
+                            "</center>" +
+                            "</html>"
+            );
 
 
         } else {
