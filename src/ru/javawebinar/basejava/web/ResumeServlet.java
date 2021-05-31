@@ -16,10 +16,18 @@ import java.io.PrintWriter;
 public class ResumeServlet extends HttpServlet {
     private Storage storage;
 
+    @Override
     public void init(ServletConfig config) throws ServletException {
         super.init(config);
         storage = Config.get().getStorage();
+
     }
+
+    //@Override
+//    public void init(ServletConfig config) throws ServletException {
+//        super.init(config);
+//        storage = Config.get().getStorage();
+//    }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws javax.servlet.ServletException, IOException {
 
@@ -49,14 +57,14 @@ public class ResumeServlet extends HttpServlet {
                                     "<td> uuid </td>" +
                                 "</tr>");
 
-            for (Resume r : storage.getAllSorted()) {
-                    writer.write(
-                            "<tr>" +
-                                    "<td>" + r.getFullName() + "</td>" +
-                                    "<td>" + r.getUuid() + "</td>" +
-                                 "</tr>");
-
-                }
+//            for (Resume r : storage.getAllSorted()) {
+//                    writer.write(
+//                            "<tr>" +
+//                                    "<td>" + r.getFullName() + "</td>" +
+//                                    "<td>" + r.getUuid() + "</td>" +
+//                                 "</tr>");
+//
+//                }
                 writer.write(
                         "</table>" +
                                 "</body>" +
