@@ -3,6 +3,7 @@ package ru.javawebinar.basejava.web;
 import ru.javawebinar.basejava.Config;
 import ru.javawebinar.basejava.model.ContactType;
 import ru.javawebinar.basejava.model.Resume;
+import ru.javawebinar.basejava.model.SectionType;
 import ru.javawebinar.basejava.storage.Storage;
 
 import javax.servlet.ServletConfig;
@@ -35,6 +36,9 @@ public class ResumeServlet extends HttpServlet {
             } else {
                 r.getContacts().remove(type);
             }
+        }
+        for (SectionType type : SectionType.values() ) {
+
         }
         storage.update(r);
         response.sendRedirect("resume");
