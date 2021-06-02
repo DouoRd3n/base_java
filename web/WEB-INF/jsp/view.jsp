@@ -31,17 +31,17 @@
                 <td colspan="2"><h2><a name="type.name">${type.title}</a> </h2></td>
             </tr>
             <c:choose>
-                <c:when test="${type == OBJECTIVE}">
+                <c:when test="${type == 'OBJECTIVE'}">
                     <tr>
                         <td colspan="2"><%=((TextSection) section).getContent()%></td>
                     </tr>
                 </c:when>
-                <c:when test="${type == PERSONAL}">
+                <c:when test="${type == 'PERSONAL'}">
                     <tr>
                         <td colspan="2"><%=((TextSection) section).getContent()%></td>
                     </tr>
                 </c:when>
-                <c:when test="${type==ACHIEVEMENT || type == QUALIFICATIONS}">
+                <c:when test="${type=='ACHIEVEMENT' || type == 'QUALIFICATIONS'}">
                     <tr>
                         <c:forEach var="item" items="<%=((ListSection)section).getItems() %>">
                             <li>${item}</li>
