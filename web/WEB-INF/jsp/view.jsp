@@ -1,5 +1,7 @@
 <%@ page import="ru.javawebinar.basejava.model.TextSection" %>
 <%@ page import="ru.javawebinar.basejava.model.ListSection" %>
+<%@ page import="ru.javawebinar.basejava.model.OrganizationSection" %>
+<%@ page import="ru.javawebinar.basejava.util.HtmlUtil" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
@@ -43,10 +45,40 @@
                 </c:when>
                 <c:when test="${type=='ACHIEVEMENT' || type == 'QUALIFICATIONS'}">
                     <tr>
-                        <c:forEach var="item" items="<%=((ListSection)section).getItems() %>">
-                            <li>${item}</li>
-                        </c:forEach>
+                        <td colspan="2">
+                            <ul>
+                            <c:forEach var="item" items="<%=((ListSection)section).getItems() %>">
+                                <li>${item}</li>
+                            </c:forEach>
+                            </ul>
+                        </td>
+
                     </tr>
+                </c:when>
+                <c:when test="${type=='EXPERIENCE' || type=='EDUCATION'}">
+                    <c:forEach var="org" items="<%=((OrganizationSection)section).getOrganizations()%>">
+                        <tr>
+                            <td>
+                                <c:choose>
+                                    <c:when test="${empty org.homePage.url}">
+                                        <h3>${org.homePage.name}</h3>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <h3> <a href="${org.homePage.url}" name="${org.homePage.name}"> </a></h3>
+                                    </c:otherwise>
+                                </c:choose>
+                            </td>
+                        </tr>
+                        <c:forEach var="position" items="${org.positions}">
+                            <jsp:useBean id="position" type="ru.javawebinar.basejava.model.Organization.Position"/>
+                            <tr>
+                                <td ><%=HtmlUtil.dateFormat(position)%>
+                                </td>
+                                <td><b>${position.title}</b><br> ${position.description}</td>
+                            </tr>
+                        </c:forEach>
+                    </c:forEach>
+
                 </c:when>
 
 
