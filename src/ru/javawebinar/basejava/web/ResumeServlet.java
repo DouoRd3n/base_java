@@ -38,6 +38,15 @@ public class ResumeServlet extends HttpServlet {
             }
         }
         for (SectionType type : SectionType.values() ) {
+            String parameter = request.getParameter(type.name());
+            switch (parameter){
+                case "PERSONAL":
+                case "OBJECTIVE":
+                case "ACHIEVEMENT":
+                case "QUALIFICATIONS":
+                case"EXPERIENCE":
+                case "EDUCATION" :
+            }
 
         }
         storage.update(r);

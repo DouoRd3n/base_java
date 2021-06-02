@@ -1,4 +1,7 @@
 <%@ page import="ru.javawebinar.basejava.model.ContactType" %>
+<%@ page import="ru.javawebinar.basejava.model.SectionType" %>
+<%@ page import="ru.javawebinar.basejava.model.ListSection" %>
+<%@ page import="ru.javawebinar.basejava.model.OrganizationSection" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
@@ -25,9 +28,32 @@
             </dl>
         </c:forEach>
         <h3>Секции:</h3>
-        <input type="text" name="section" size=30 value="1"><br/>
-        <input type="text" name="section" size=30 value="2"><br/>
-        <input type="text" name="section" size=30 value="3"><br/>
+        <c:forEach var="type" items="<%=SectionType.values()%>">
+            <c:set var="section" value="${resume.getSection(type)}"/>
+            <jsp:useBean id="section" type="ru.javawebinar.basejava.model.Section"/>
+            <h3><a>${type.title}</a></h3>
+            <c:choose>
+                <c:when test="${type == 'OBJECTIVE'}">
+                    <input type="text" name="${type}" size="75" value="<%=section%>"/>
+                </c:when>
+                <c:when test="${type== 'PERSONAL'}">
+                    <textarea name="${type}" cols="75" rows="5"><%=section%></textarea>
+                </c:when>
+                <c:when test="${type == 'ACHIEVEMENT' || type == 'QUALIFICATIONS'}" >
+                    <textarea name="${type}" cols="75" rows="5"><%=String.join("\n", ((ListSection)section).getItems())%>
+                    </textarea>
+                </c:when>
+                <c:when test="${type == 'EXPERIENCE' || type == 'EDUCATION'}">
+                    <c:forEach var="org" items="<%=((OrganizationSection)section).getOrganizations()%>"
+                        varStatus="counter">
+
+
+                    </c:forEach>
+                </c:when>
+
+            </c:choose>
+
+        </c:forEach>
         <hr>
         <button type="submit">Сохранить</button>
         <button onclick="window.history.back()">Отменить</button>
